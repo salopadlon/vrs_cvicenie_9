@@ -38,5 +38,9 @@
 - ukážkový program komunikuje s LSM6DS0 prostredníctvom I2C a číta hodnotu zrýchlení v osiach x, y, z
 
 # Zadanie
-- WORK IN PROGRESS !!!
+- vyčítavať dáta z MAG, TEMP/HUM, BARO
+
+- MAG - zistit natocenie v osi "z" (azymut) 
+- TEMP/HUM - zistit teplotu a relativnu vlhkost vzduchu
+- BARO - zistit aktualny tlak (abs), nadmorsku vysku
 
