@@ -3,6 +3,18 @@
 - komunikácia s IMU prostredníctvom I2C
 
 
+# I2C zbernica
+
+### Základne posielanie dát
+<p align="center">
+    <img src="https://github.com/VRS-Predmet/vrs_cvicenie_9/blob/master/docs/I2C_Basic_Address_and_Data_Frames.jpg" width="950" title="">
+</p>
+
+### Posielanie večšieho množstva dát
+<p align="center">
+    <img src="https://github.com/VRS-Predmet/vrs_cvicenie_9/blob/master/docs/I2C_Repeated_Start_Conditions.jpg" width="550" title="">
+</p>
+
 # Konfigurácia I2C
 
 <p align="center">
