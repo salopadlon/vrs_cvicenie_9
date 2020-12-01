@@ -5,7 +5,7 @@
 
 # I2C zbernica
 
-### Základne posielanie dát
+### Základné posielanie dát
 <p align="center">
     <img src="https://github.com/VRS-Predmet/vrs_cvicenie_9/blob/master/docs/I2C_Basic_Address_and_Data_Frames.jpg" width="950" title="">
 </p>
@@ -38,5 +38,5 @@
 - ukážkový program komunikuje s LSM6DS0 prostredníctvom I2C a číta hodnotu zrýchlení v osiach x, y, z
 
 # Zadanie
-- podľa nameraného zrýchlenia vykreslite na displeji z predchádzajúceho cvičenia uhol náklonu senzorovej dosky voči vodorovnej rovine
+- WORK IN PROGRESS !!!
 
