@@ -53,14 +53,14 @@ Vytvoriť aplikáciu, ktorá bude zobrazovať dáta získané zo senzorov (LIS3M
 
 3. Údaje sa budú zobrazovať na 7-segmentovom dipleji tak, ako v predošlom zadaní. 
 
-4. Formátovanie zobrazovaného textu. Hranatá zatvorka predstavuje v akých jednotkách je zobrazovaná hodnota. Niektoré hodnoty sú zobrazované s presnosťou na 1 alebo 2 desatinné miesta:
+4. Formátovanie zobrazovaného textu. Hranatá zatvorka predstavuje v akých jednotkách je zobrazovaná hodnota. Niektoré hodnoty sú zobrazované s presnosťou na 1 alebo 2 desatinné miesta. "xx.x" predstavuje digity vyhradené pre číslice.:
    - azymut [deg]: "MAG_xx.x"
    - teplota [°C]: "TEMP_xx.x"
    - rel. vlhkosť [%]: "HUM_xx"
    - tlak vzduchu [hPa]: "BAR_xxxx.xx"
    - nadmorská výška [m]: "ALT_xxxx.x"
    
-   Príklad: ak je nameraná teplota 25.4°C, na dipleji sa bude zobrazovať text "TEMP_25.4". "xx.x" predstavuje digity vyhradené pre číslice. Ak by však bola teplota bola záporna, zobbrazovaný text bude "TEMP_-25.4". V prípade, že by nameraná hodnota bola +-100°C, zobrazený text bude obsahovať maximálnu/minimálnu hodnotu (podľa toho ktorá hranica sa prekoná) - "TEMP_99.9" alebo "TEMP_-99.9" .
+   Príklad: ak je nameraná teplota 25.4°C, na dipleji sa bude zobrazovať text "TEMP_25.4". Ak by však bola teplota záporna, zobbrazovaný text bude "TEMP_-25.4". V prípade, že by nameraná hodnota bola +-100°C, zobrazený text bude obsahovať maximálnu/minimálnu hodnotu (podľa toho ktorá hranica sa prekoná) - "TEMP_99.9" alebo "TEMP_-99.9" .
    
 5. To, ktorý z údajov sa bude aktuálne zobrazovať na displeji bude možné voliť pomocou tlačítka. To, ktorý údaj sa bude zobrazovať po resete je na Vás. Po stlačení tlačidla sa musí aplikácia prepnúť na zobrazovanie iného údaju (postupne je možné sa preklikať všetkými údajmi). Poradie v akom sa budú zobrazovať si zvolte podľa vlastného uváženia, ale musí byť fixné. Ak by bolo poradie zobrazovania údajov tak, ako je to v bode 4, tak po reštarte sa mi bude zobrazovať azymut. Po stlačení tlačidla sa prepne zobrazovanie na teplotu, potom na rel. vlhkosť, tlak a nakoniec nadmorskú výšku. Ak bude tlačidlo znovu stlačené, zobrazí sa azymut a celý cyklus sa bude opakovať pokiaľ bude stláčané tlačidlo. 
 
