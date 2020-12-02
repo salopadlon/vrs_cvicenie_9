@@ -66,7 +66,7 @@ Vytvoriť aplikáciu, ktorá bude zobrazovať dáta získané zo senzorov (LIS3M
 
 6. Zapojenie:
    - zapojenie displeja je totožné s predošlím zadaním
-   - pripojenie senzorovej dosky je zobrazené na obrazku výššie
+   - pripojenie senzorovej dosky je zobrazené na obrazku výššie, na MCU je SDA a SCL vyvedené na PB6 a PB7
    - tlačídlo bude pripojené na GPIO pin "PB0"
 
 
