@@ -65,8 +65,22 @@ Vytvoriť aplikáciu, ktorá bude zobrazovať dáta získané zo senzorov (LIS3M
 5. To, ktorý z údajov sa bude aktuálne zobrazovať na displeji bude možné voliť pomocou tlačítka. To, ktorý údaj sa bude zobrazovať po resete je na Vás. Po stlačení tlačidla sa musí aplikácia prepnúť na zobrazovanie iného údaju (postupne je možné sa preklikať všetkými údajmi). Poradie v akom sa budú zobrazovať si zvolte podľa vlastného uváženia, ale musí byť fixné. Ak by bolo poradie zobrazovania údajov tak, ako je to v bode 4, tak po reštarte sa mi bude zobrazovať azymut. Po stlačení tlačidla sa prepne zobrazovanie na teplotu, potom na rel. vlhkosť, tlak a nakoniec nadmorskú výšku. Ak bude tlačidlo znovu stlačené, zobrazí sa azymut a celý cyklus sa bude opakovať pokiaľ bude stláčané tlačidlo. 
 
 6. Zapojenie:
-   - zapojenie displeja je totožné s predošlím zadaním
    - pripojenie senzorovej dosky je zobrazené na obrazku výššie, na MCU je SDA a SCL vyvedené na PB6 a PB7
-   - tlačídlo bude pripojené na GPIO pin "PB0"
+   - tlačídlo bude pripojené na GPIO pin "PB3"
+   - Segmenty displeja:   
+      - segment A  -> PA1           
+      - segment B  -> PA0             
+      - segment C  -> PA8             
+      - segment D  -> PB5             
+      - segment E  -> PA11            
+      - segment F  -> PA3
+      - segment G  -> PB4
+      - segment DP -> PB1
 
+   - digity displeja:   
+      - digit 0 ->    PB0
+      - digit 1 ->    PA4
+      - digit 2 ->    PA12
+      - digit 3 ->    PA2
+      - digit time -> PA7
 
