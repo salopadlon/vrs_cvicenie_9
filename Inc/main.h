@@ -38,6 +38,7 @@ extern "C" {
 #include "stm32f3xx_ll_utils.h"
 #include "stm32f3xx_ll_pwr.h"
 #include "stm32f3xx_ll_dma.h"
+#include "stm32f3xx_ll_tim.h"
 #include "stm32f3xx_ll_gpio.h"
 
 #if defined(USE_FULL_ASSERT)
@@ -72,6 +73,35 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define DISP_B_Pin LL_GPIO_PIN_0
+#define DISP_B_GPIO_Port GPIOA
+#define DISP_A_Pin LL_GPIO_PIN_1
+#define DISP_A_GPIO_Port GPIOA
+#define DISP_3_Pin LL_GPIO_PIN_2
+#define DISP_3_GPIO_Port GPIOA
+#define DISP_F_Pin LL_GPIO_PIN_3
+#define DISP_F_GPIO_Port GPIOA
+#define DISP_1_Pin LL_GPIO_PIN_4
+#define DISP_1_GPIO_Port GPIOA
+#define DISP_TIME_Pin LL_GPIO_PIN_7
+#define DISP_TIME_GPIO_Port GPIOA
+#define DISP_0_Pin LL_GPIO_PIN_0
+#define DISP_0_GPIO_Port GPIOB
+#define DISP_DP_Pin LL_GPIO_PIN_1
+#define DISP_DP_GPIO_Port GPIOB
+#define DISP_C_Pin LL_GPIO_PIN_8
+#define DISP_C_GPIO_Port GPIOA
+#define DISP_E_Pin LL_GPIO_PIN_11
+#define DISP_E_GPIO_Port GPIOA
+#define DISP_2_Pin LL_GPIO_PIN_12
+#define DISP_2_GPIO_Port GPIOA
+#define BUTTON_Pin LL_GPIO_PIN_3
+#define BUTTON_GPIO_Port GPIOB
+#define BUTTON_EXTI_IRQn EXTI3_IRQn
+#define DISP_G_Pin LL_GPIO_PIN_4
+#define DISP_G_GPIO_Port GPIOB
+#define DISP_D_Pin LL_GPIO_PIN_5
+#define DISP_D_GPIO_Port GPIOB
 #ifndef NVIC_PRIORITYGROUP_0
 #define NVIC_PRIORITYGROUP_0         ((uint32_t)0x00000007) /*!< 0 bit  for pre-emption priority,
                                                                  4 bits for subpriority */
