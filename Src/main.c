@@ -23,32 +23,12 @@
 #include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
+#include "lis3mdltr.h"
+#include "lsm6ds0.h"
+#include "lps25hb.h"
 
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
+uint8_t temp = 0;
+float mag[3], acc[3];
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -67,10 +47,6 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -82,34 +58,27 @@ int main(void)
 
   /* System interrupt init*/
 
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_TIM3_Init();
-  /* USER CODE BEGIN 2 */
 
-  /* USER CODE END 2 */
+  lsm6ds0_init();
 
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+	  //os			   x      y        z
+	  lsm6ds0_get_acc(acc, (acc+1), (acc+2));
+	  LL_mDelay(50);
   }
-  /* USER CODE END 3 */
+
 }
 
 /**
