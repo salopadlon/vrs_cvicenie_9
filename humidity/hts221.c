@@ -28,7 +28,7 @@ void hts221_readArray(uint8_t * data, uint8_t reg, uint8_t length)
 int8_t hts221_get_temp()
 {
 	uint8_t temp[2];
-	lsm6ds0_readArray(temp, HTS221_ADDRESS_TEMP, 2);
+	hts221_readArray(temp, HTS221_ADDRESS_TEMP, 2);
 
 	return (((int16_t)((temp[1] << 8) | temp[0])) >> 3)  + 25;
 }

@@ -86,6 +86,8 @@ int main(void)
 
   lsm6ds0_init();
   lps25hb_init();
+  hts221_init();
+  lis3mdl_init();
 
 //  MX_TIM3_Init();
 
@@ -104,7 +106,7 @@ int main(void)
 
 	  if (switch_state == 1) {
 		  lis3mdl_get_mag(mag, (mag+1), (mag+2));
-		  azimuth = get_asimuth(mag+2);
+		  azimuth = get_asimuth(mag, mag+1);
 		  snprintf(string, sizeof(string), "MAG_%2.1f", azimuth);
 	  }
 
@@ -125,7 +127,8 @@ int main(void)
 
 	  else if (switch_state == 5) {
 		  lps25hb_get_press(press);
-		  alt = get_altitude(press);
+		  int16_t temperature = lps25hb_get_temp();
+		  alt = get_altitude(press, temperature);
 		  snprintf(string, sizeof(string), "ALT_%4.1f", alt);
 	  }
 
@@ -199,14 +202,18 @@ void SystemClock_Config(void)
   LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_HSI);
 }
 
-float get_azimuth(float magz)
+float get_azimuth(float x, float y)
 {
-
+	return atan2(x, y) * 180.0/PI;
 }
 
-float get_altitude(float press)
+float get_altitude(float p, float temp)
 {
-
+	float p0 = 1013.25;
+	double press = p0/p;
+	double exponent = 1/5.257;
+	float numerator = (pow(press, exponent) - 1) * temp;
+	return numerator/0.0065;
 }
 
 /**
