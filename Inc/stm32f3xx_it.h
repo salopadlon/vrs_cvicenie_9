@@ -42,9 +42,17 @@
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
+ // defines for input port used by button
+ #define		GPIO_PORT_BUTTON				GPIOB
+ #define		GPIO_PIN_BUTTON					3
 
-/* USER CODE END EM */
+ // defines for "checkButtonState"
+ #define		TRIGGER_RISE					0
+ #define		TRIGGER_FALL					1
+
+ #define		BUTTON_EXTI_TRIGGER				TRIGGER_RISE
+ #define		BUTTON_EXTI_SAMPLES_WINDOW		30
+ #define		BUTTON_EXTI_SAMPLES_REQUIRED	20
 
 /* Exported functions prototypes ---------------------------------------------*/
 void NMI_Handler(void);
@@ -60,6 +68,8 @@ void EXTI3_IRQHandler(void);
 void TIM3_IRQHandler(void);
 void I2C1_EV_IRQHandler(void);
 /* USER CODE BEGIN EFP */
+
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required);
 
 /* USER CODE END EFP */
 

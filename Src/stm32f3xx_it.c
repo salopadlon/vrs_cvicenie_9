@@ -202,19 +202,21 @@ void SysTick_Handler(void)
   */
 void EXTI3_IRQHandler(void)
 {
-  /* USER CODE BEGIN EXTI3_IRQn 0 */
+	if(checkButtonState(GPIO_PORT_BUTTON,
+													GPIO_PIN_BUTTON,
+													BUTTON_EXTI_TRIGGER,
+													BUTTON_EXTI_SAMPLES_WINDOW,
+													BUTTON_EXTI_SAMPLES_REQUIRED))
+			{
+		switch_state ^= 1;   // todo:change state machine
+			}
 
-  /* USER CODE END EXTI3_IRQn 0 */
-  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
-    /* USER CODE BEGIN LL_EXTI_LINE_3 */
 
-    /* USER CODE END LL_EXTI_LINE_3 */
-  }
-  /* USER CODE BEGIN EXTI3_IRQn 1 */
+	  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
+	  {
+	    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_3);
 
-  /* USER CODE END EXTI3_IRQn 1 */
+	  }
 }
 
 /**
@@ -244,7 +246,33 @@ void I2C1_EV_IRQHandler(void)
   /* USER CODE END I2C1_EV_IRQn 1 */
 }
 
-/* USER CODE BEGIN 1 */
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
+{
+	uint8_t button_state = 0, it = 0;
 
-/* USER CODE END 1 */
+		while(it < samples_window)
+		{
+			if((!(PORT->IDR & (1 << PIN)) == edge) /*LL_GPIO_IsInputPinSet(PORT, PIN)*/)
+			{
+				button_state += 1;
+			}
+			else
+			{
+				button_state = 0;
+			}
+
+			it++;
+			LL_mDelay(1);
+		}
+
+		if(button_state >= samples_required)
+		{
+			return 1;
+		}
+
+		else
+		{
+			return 0;
+		}
+}
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
