@@ -41,9 +41,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
+extern uint8_t switch_state;
 
 /* Private function prototypes -----------------------------------------------*/
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required);
@@ -206,7 +204,8 @@ void EXTI3_IRQHandler(void)
 													BUTTON_EXTI_SAMPLES_WINDOW,
 													BUTTON_EXTI_SAMPLES_REQUIRED))
 			{
-		switch_state ^= 1;   // todo:change state machine
+		if (switch_state == 5) switch_state = 1;
+		switch_state++;   // todo:change state machine
 			}
 
 
@@ -220,29 +219,29 @@ void EXTI3_IRQHandler(void)
 /**
   * @brief This function handles TIM3 global interrupt.
   */
-void TIM3_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM3_IRQn 0 */
-
-  /* USER CODE END TIM3_IRQn 0 */
-  /* USER CODE BEGIN TIM3_IRQn 1 */
-
-  /* USER CODE END TIM3_IRQn 1 */
-}
-
-/**
-  * @brief This function handles I2C1 event global interrupt / I2C1 wake-up interrupt through EXT line 23.
-  */
-void I2C1_EV_IRQHandler(void)
-{
-  /* USER CODE BEGIN I2C1_EV_IRQn 0 */
-
-  /* USER CODE END I2C1_EV_IRQn 0 */
-
-  /* USER CODE BEGIN I2C1_EV_IRQn 1 */
-
-  /* USER CODE END I2C1_EV_IRQn 1 */
-}
+//void TIM3_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN TIM3_IRQn 0 */
+//
+//  /* USER CODE END TIM3_IRQn 0 */
+//  /* USER CODE BEGIN TIM3_IRQn 1 */
+//
+//  /* USER CODE END TIM3_IRQn 1 */
+//}
+//
+///**
+//  * @brief This function handles I2C1 event global interrupt / I2C1 wake-up interrupt through EXT line 23.
+//  */
+//void I2C1_EV_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN I2C1_EV_IRQn 0 */
+//
+//  /* USER CODE END I2C1_EV_IRQn 0 */
+//
+//  /* USER CODE BEGIN I2C1_EV_IRQn 1 */
+//
+//  /* USER CODE END I2C1_EV_IRQn 1 */
+//}
 
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
 {

@@ -26,8 +26,14 @@
 #include "lis3mdltr.h"
 #include "lsm6ds0.h"
 #include "lps25hb.h"
+#include "hts221.h"
 
+uint8_t switch_state = 1;
 uint8_t temp = 0;
+uint8_t pos = 0;
+uint8_t backwards = 0;
+char string[] = "Error";
+char string_disp[4];
 float mag[3], acc[3];
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,6 +82,36 @@ int main(void)
   {
 	  //os			   x      y        z
 	  lsm6ds0_get_acc(acc, (acc+1), (acc+2));
+
+	  if(backwards) {
+		  for (uint8_t i = 0; i < 4; i++) {
+			  string_disp[i] = string[pos-2+i];
+		  }
+
+		  --pos;
+
+		  if (pos <= 1) {
+			  backwards = 0;
+		  }
+	  }
+
+	  else {
+		  for (uint8_t i = 0; i < 4; i++) {
+			  string_disp[i] = string[pos+i];
+		  }
+
+		  ++pos;
+
+		  if (pos >= (sizeof(string)/sizeof(string[1])-4)) {
+			  backwards = 1;
+		  }
+	  }
+
+	  if (switch_state == 1) displayNumber(acc);
+	  if (switch_state == 2) displayNumber(acc+1);
+	  if (switch_state == 3) displayNumber(acc+2);
+	  else displayNumber(string_disp);
+
 	  LL_mDelay(50);
   }
 
