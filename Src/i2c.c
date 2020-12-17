@@ -135,7 +135,9 @@ uint8_t* i2c_master_read(uint8_t* buffer, uint8_t length, uint8_t register_addr,
 	return aReceiveBuffer_read;
 }
 
-
+/**
+  * @brief This function handles I2C1 event global interrupt / I2C1 wake-up interrupt through EXT line 23.
+  */
 void I2C1_EV_IRQHandler(void)
 {
 	/* Check RXNE flag value in ISR register */

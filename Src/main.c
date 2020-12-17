@@ -23,18 +23,21 @@
 #include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
+#include "display.h"
 #include "lis3mdltr.h"
 #include "lsm6ds0.h"
 #include "lps25hb.h"
 #include "hts221.h"
+#include <stdio.h>
 
 uint8_t switch_state = 1;
 uint8_t temp = 0;
 uint8_t pos = 0;
 uint8_t backwards = 0;
-char string[] = "Error";
+char string[16];
 char string_disp[4];
-float mag[3], acc[3];
+float mag[3], acc[3], azimuth, alt;
+float* press, hum, temp;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -72,9 +75,19 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
-  MX_TIM3_Init();
+
+  setSegments();
+  setDigits();
+
+  LL_mDelay(2000);
+
+  resetDigits();
+  resetSegments();
 
   lsm6ds0_init();
+  lps25hb_init();
+
+//  MX_TIM3_Init();
 
   /* Infinite loop */
 
@@ -82,6 +95,43 @@ int main(void)
   {
 	  //os			   x      y        z
 	  lsm6ds0_get_acc(acc, (acc+1), (acc+2));
+//	  lis3mdl_get_mag(mag, (mag+1), (mag+2));
+//	  lps25hb_get_press(press, alt);
+//	  hts221_get_hum(hum);
+//	  hts221_get_temp(temp);
+//
+//	  azimuth = get_azimuth(mag+2);
+
+	  if (switch_state == 1) {
+		  lis3mdl_get_mag(mag, (mag+1), (mag+2));
+		  azimuth = get_asimuth(mag+2);
+		  snprintf(string, sizeof(string), "MAG_%2.1f", azimuth);
+	  }
+
+	  else if (switch_state == 2) {
+		  hts221_get_temp(temp);
+		  snprintf(string, sizeof(string), "TEMP_%2.1f", temp);;
+	  }
+
+	  else if (switch_state == 3) {
+		  hts221_get_hum(hum);
+		  snprintf(string, sizeof(string), "HUM_%2f", hum);
+	  }
+
+	  else if (switch_state == 4) {
+		  lps25hb_get_press(press);
+		  snprintf(string, sizeof(string), "BAR_%4.2f", press);
+	  }
+
+	  else if (switch_state == 5) {
+		  lps25hb_get_press(press);
+		  alt = get_altitude(press);
+		  snprintf(string, sizeof(string), "ALT_%4.1f", alt);
+	  }
+
+	  else {
+		snprintf(string, sizeof(string), "Error");
+	  }
 
 	  if(backwards) {
 		  for (uint8_t i = 0; i < 4; i++) {
@@ -107,11 +157,7 @@ int main(void)
 		  }
 	  }
 
-	  if (switch_state == 1) displayNumber(acc);
-	  if (switch_state == 2) displayNumber(acc+1);
-	  if (switch_state == 3) displayNumber(acc+2);
-	  else displayNumber(string_disp);
-
+	  displayNumber(string_disp);
 	  LL_mDelay(50);
   }
 
@@ -153,9 +199,15 @@ void SystemClock_Config(void)
   LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_HSI);
 }
 
-/* USER CODE BEGIN 4 */
+float get_azimuth(float magz)
+{
 
-/* USER CODE END 4 */
+}
+
+float get_altitude(float press)
+{
+
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

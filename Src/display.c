@@ -691,6 +691,9 @@ void updateDisplay(void)
 	}
 }
 
+/**
+  * @brief This function handles TIM3 global interrupt.
+  */
 //Update displayed data and keep display ON
 void TIM3_IRQHandler(void)
 {
@@ -699,6 +702,5 @@ void TIM3_IRQHandler(void)
 		updateDisplay();
 	}
 
-	LL_TIM_ClearFlag_UPDATE(TIM3);
+	LL_TIM_ClearFlag_UPDATE(TI32);
 }
-

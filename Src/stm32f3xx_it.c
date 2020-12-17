@@ -203,10 +203,10 @@ void EXTI3_IRQHandler(void)
 													BUTTON_EXTI_TRIGGER,
 													BUTTON_EXTI_SAMPLES_WINDOW,
 													BUTTON_EXTI_SAMPLES_REQUIRED))
-			{
-		if (switch_state == 5) switch_state = 1;
-		switch_state++;   // todo:change state machine
-			}
+	{
+		if (switch_state >= 5) switch_state = 1;
+		else switch_state++;
+	}
 
 
 	  if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
@@ -215,33 +215,6 @@ void EXTI3_IRQHandler(void)
 
 	  }
 }
-
-/**
-  * @brief This function handles TIM3 global interrupt.
-  */
-//void TIM3_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN TIM3_IRQn 0 */
-//
-//  /* USER CODE END TIM3_IRQn 0 */
-//  /* USER CODE BEGIN TIM3_IRQn 1 */
-//
-//  /* USER CODE END TIM3_IRQn 1 */
-//}
-//
-///**
-//  * @brief This function handles I2C1 event global interrupt / I2C1 wake-up interrupt through EXT line 23.
-//  */
-//void I2C1_EV_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN I2C1_EV_IRQn 0 */
-//
-//  /* USER CODE END I2C1_EV_IRQn 0 */
-//
-//  /* USER CODE BEGIN I2C1_EV_IRQn 1 */
-//
-//  /* USER CODE END I2C1_EV_IRQn 1 */
-//}
 
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required)
 {

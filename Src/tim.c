@@ -27,23 +27,24 @@
 /* TIM3 init function */
 void MX_TIM3_Init(void)
 {
-  LL_TIM_InitTypeDef TIM_InitStruct = {0};
-  LL_TIM_OC_InitTypeDef TIM_OC_InitStruct = {0};
+	LL_TIM_InitTypeDef TIM_InitStruct = {0};
+	LL_TIM_OC_InitTypeDef TIM_OC_InitStruct = {0};
 
-  /* Peripheral clock enable */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
+	/* Peripheral clock enable */
+	LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
 
-  /* TIM3 interrupt Init */
-  NVIC_SetPriority(TIM3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
-  NVIC_EnableIRQ(TIM3_IRQn);
+	/* TIM3 interrupt Init */
+	NVIC_SetPriority(TIM3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),2, 2));
+	NVIC_EnableIRQ(TIM3_IRQn);
 
-  TIM_InitStruct.Prescaler = 7999;
-  TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-  TIM_InitStruct.Autoreload = 19;
-  TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
-  LL_TIM_Init(TIM3, &TIM_InitStruct);
+	//TIM3 clock = 8MHz
+	TIM_InitStruct.Prescaler = 7999; 								//1kHz
+	TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
+	TIM_InitStruct.Autoreload = 19;								//20ms
+	TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
+	LL_TIM_Init(TIM3, &TIM_InitStruct);
 
-  //LL_TIM_DisableARRPreload(TIM3);
+	//LL_TIM_DisableARRPreload(TIM3);
 	LL_TIM_EnableARRPreload(TIM3);
 	LL_TIM_SetClockSource(TIM3, LL_TIM_CLOCKSOURCE_INTERNAL);
 	TIM_OC_InitStruct.OCMode = LL_TIM_OCMODE_ACTIVE;
@@ -52,6 +53,7 @@ void MX_TIM3_Init(void)
 	TIM_OC_InitStruct.CompareValue = 0;
 	TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
 	LL_TIM_OC_Init(TIM3, LL_TIM_CHANNEL_CH1, &TIM_OC_InitStruct);
+	LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
 	LL_TIM_OC_DisableFast(TIM3, LL_TIM_CHANNEL_CH1);
 
 	LL_TIM_SetTriggerOutput(TIM3, LL_TIM_TRGO_RESET);
@@ -59,7 +61,6 @@ void MX_TIM3_Init(void)
 
 	LL_TIM_EnableIT_UPDATE(TIM3);
 	LL_TIM_EnableCounter(TIM3);
-
 }
 
 /* USER CODE BEGIN 1 */

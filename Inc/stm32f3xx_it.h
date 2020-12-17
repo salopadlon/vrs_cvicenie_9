@@ -50,7 +50,7 @@
  #define		TRIGGER_RISE					0
  #define		TRIGGER_FALL					1
 
- #define		BUTTON_EXTI_TRIGGER				TRIGGER_RISE
+ #define		BUTTON_EXTI_TRIGGER				TRIGGER_FALL
  #define		BUTTON_EXTI_SAMPLES_WINDOW		30
  #define		BUTTON_EXTI_SAMPLES_REQUIRED	20
 
@@ -65,7 +65,7 @@ void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
 void EXTI3_IRQHandler(void);
-void TIM3_IRQHandler(void);
+void TIM2_IRQHandler(void);
 void I2C1_EV_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 

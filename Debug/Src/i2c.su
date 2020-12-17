@@ -22,4 +22,4 @@ stm32f3xx_ll_bus.h:553:22:LL_APB1_GRP1_EnableClock	24	static
 i2c.c:29:6:MX_I2C1_Init	64	static
 i2c.c:75:6:i2c_master_write	32	static
 i2c.c:97:10:i2c_master_read	24	static
-i2c.c:139:6:I2C1_EV_IRQHandler	16	static
+i2c.c:141:6:I2C1_EV_IRQHandler	16	static

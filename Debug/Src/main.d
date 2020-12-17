@@ -18,8 +18,9 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h ../Inc/i2c.h \
- ../Inc/main.h ../Inc/tim.h ../Inc/gpio.h ../compass/lis3mdltr.h \
- ../accelerometer/lsm6ds0.h ../barometer/lps25hb.h ../humidity/hts221.h
+ ../Inc/main.h ../Inc/tim.h ../Inc/gpio.h ../Inc/display.h \
+ ../compass/lis3mdltr.h ../accelerometer/lsm6ds0.h ../barometer/lps25hb.h \
+ ../humidity/hts221.h
 
 ../Inc/main.h:
 
@@ -68,6 +69,8 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
 ../Inc/tim.h:
 
 ../Inc/gpio.h:
+
+../Inc/display.h:
 
 ../compass/lis3mdltr.h:
 
