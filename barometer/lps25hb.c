@@ -7,23 +7,23 @@
 
 #include "lps25hb.h"
 
-uint8_t addres = LPS25HB_DEVICE_ADDRESS_0;
+uint8_t address_lps = LPS25HB_DEVICE_ADDRESS_0;
 
 uint8_t lps25hb_read_byte(uint8_t reg_addr)
 {
 	uint8_t data = 0;
-	return *(i2c_master_read(&data, 1, reg_addr, addres, 0));
+	return *(i2c_master_read(&data, 1, reg_addr, address_lps, 0));
 }
 
 
 void lps25hb_write_byte(uint8_t reg_addr, uint8_t value)
 {
-	i2c_master_write(value, reg_addr, addres, 0);
+	i2c_master_write(value, reg_addr, address_lps, 0);
 }
 
 void lps25hb_readArray(uint8_t * data, uint8_t reg, uint8_t length)
 {
-	i2c_master_read(data, length, reg, addres, 1);
+	i2c_master_read(data, length, reg, address_lps, 1);
 }
 
 int8_t lps25hb_get_temp()
@@ -51,7 +51,7 @@ void lps25hb_get_press(float* press)
 
     pressure = ((uint16_t)data[1]) << 8 | data[0];
 
-	*press = (xx >> 4) / 1000.0f;
+	*press = (pressure >> 4) / 1000.0f;
 }
 
 
@@ -72,7 +72,7 @@ uint8_t lps25hb_init(void)
 	}
 	else			//if the device is not found on one address, try another one
 	{
-		addres = LPS25HB_DEVICE_ADDRESS_1;
+		address_lps = LPS25HB_DEVICE_ADDRESS_1;
 		val = lsm6ds0_read_byte(LPS25HB_WHO_AM_I_ADDRES);
 		if(val == LPS25HB_WHO_AM_I_VALUE)
 		{

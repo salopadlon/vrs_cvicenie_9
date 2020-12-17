@@ -702,5 +702,5 @@ void TIM3_IRQHandler(void)
 		updateDisplay();
 	}
 
-	LL_TIM_ClearFlag_UPDATE(TI32);
+	LL_TIM_ClearFlag_UPDATE(TIM3);
 }

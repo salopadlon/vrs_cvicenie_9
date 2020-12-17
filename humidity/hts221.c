@@ -7,22 +7,22 @@
 
 #include "hts221.h"
 
-uint8_t addres = HTS221_DEVICE_ADDRESS_0;
+uint8_t address_hts = HTS221_DEVICE_ADDRESS_0;
 
 uint8_t hts221_read_byte(uint8_t reg_addr)
 {
 	uint8_t data = 0;
-	return *(i2c_master_read(&data, 1, reg_addr, addres, 0));
+	return *(i2c_master_read(&data, 1, reg_addr, address_hts, 0));
 }
 
 void hts221_write_byte(uint8_t reg_addr, uint8_t value)
 {
-	i2c_master_write(value, reg_addr, addres, 0);
+	i2c_master_write(value, reg_addr, address_hts, 0);
 }
 
 void hts221_readArray(uint8_t * data, uint8_t reg, uint8_t length)
 {
-	i2c_master_read(data, length, reg, addres, 1);
+	i2c_master_read(data, length, reg, address_hts, 1);
 }
 
 int8_t hts221_get_temp()
@@ -50,7 +50,7 @@ void hts221_get_hum(float* hum)
 
     humidity = ((uint16_t)data[1]) << 8 | data[0];
 
-	*hum = (xx >> 4) / 1000.0f;
+	*hum = (humidity >> 4) / 1000.0f;
 }
 
 

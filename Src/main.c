@@ -29,9 +29,10 @@
 #include "lps25hb.h"
 #include "hts221.h"
 #include <stdio.h>
+#include <math.h>
 
 uint8_t switch_state = 1;
-uint8_t temp = 0;
+//uint8_t temp = 0;
 uint8_t pos = 0;
 uint8_t backwards = 0;
 char string[16];
@@ -41,9 +42,8 @@ float* press, hum, temp;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
+float get_altitude(float p, int16_t temp);
+float get_azimuth(float x, float y);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
@@ -89,7 +89,7 @@ int main(void)
   hts221_init();
   lis3mdl_init();
 
-//  MX_TIM3_Init();
+  MX_TIM3_Init();
 
   /* Infinite loop */
 
@@ -101,7 +101,7 @@ int main(void)
 	  /* Display chosen state */
 	  if (switch_state == 1) {
 		  lis3mdl_get_mag(mag, (mag+1), (mag+2));
-		  azimuth = get_asimuth(mag, mag+1);
+		  azimuth = get_azimuth(*mag, *(mag+1));
 		  snprintf(string, sizeof(string), "MAG_%2.1f", azimuth);
 	  }
 
@@ -123,7 +123,7 @@ int main(void)
 	  else if (switch_state == 5) {
 		  lps25hb_get_press(press);
 		  int16_t temperature = lps25hb_get_temp();
-		  alt = get_altitude(press, temperature);
+		  alt = get_altitude(*press, temperature);
 		  snprintf(string, sizeof(string), "ALT_%4.1f", alt);
 	  }
 
@@ -200,7 +200,7 @@ void SystemClock_Config(void)
 
 float get_azimuth(float x, float y)
 {
-	return atan2(x, y) * 180.0/PI;
+	return atan2(x, y) * 180.0/M_PI;
 }
 
 float get_altitude(float p, int16_t temp)
