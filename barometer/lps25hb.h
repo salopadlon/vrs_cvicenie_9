@@ -9,8 +9,8 @@
 #include "i2c.h"
 
 
-#define 	LPS25HB_DEVICE_ADDRESS_0				0xD4 // todo: check in datasheet
-#define 	LPS25HB_DEVICE_ADDRESS_1				0xD6 // todo: check in datasheet
+#define 	LPS25HB_DEVICE_ADDRESS_0				0xB8
+#define 	LPS25HB_DEVICE_ADDRESS_1				0xBA
 
 #define 	LPS25HB_WHO_AM_I_VALUE					0xBD
 #define 	LPS25HB_WHO_AM_I_ADDRES					0x0F
