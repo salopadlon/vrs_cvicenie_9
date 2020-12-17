@@ -51,7 +51,7 @@ all: i2c_comm.elf secondary-outputs
 
 # Tool invocations
 i2c_comm.elf: $(OBJS) $(USER_OBJS) C:\Users\psadl\Documents\SCHOOL\VRS\_repo\11\vrs_cvicenie_9\STM32F303K8TX_FLASH.ld
-	arm-none-eabi-gcc -o "i2c_comm.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\psadl\Documents\SCHOOL\VRS\_repo\11\vrs_cvicenie_9\STM32F303K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="i2c_comm.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "i2c_comm.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\psadl\Documents\SCHOOL\VRS\_repo\11\vrs_cvicenie_9\STM32F303K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="i2c_comm.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

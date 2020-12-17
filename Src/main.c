@@ -96,14 +96,9 @@ int main(void)
   while (1)
   {
 	  //os			   x      y        z
-	  lsm6ds0_get_acc(acc, (acc+1), (acc+2));
-//	  lis3mdl_get_mag(mag, (mag+1), (mag+2));
-//	  lps25hb_get_press(press, alt);
-//	  hts221_get_hum(hum);
-//	  hts221_get_temp(temp);
-//
-//	  azimuth = get_azimuth(mag+2);
+//	  lsm6ds0_get_acc(acc, (acc+1), (acc+2));
 
+	  /* Display chosen state */
 	  if (switch_state == 1) {
 		  lis3mdl_get_mag(mag, (mag+1), (mag+2));
 		  azimuth = get_asimuth(mag, mag+1);
@@ -111,7 +106,7 @@ int main(void)
 	  }
 
 	  else if (switch_state == 2) {
-		  hts221_get_temp(temp);
+		  temp = hts221_get_temp();
 		  snprintf(string, sizeof(string), "TEMP_%2.1f", temp);;
 	  }
 
@@ -136,6 +131,7 @@ int main(void)
 		snprintf(string, sizeof(string), "Error");
 	  }
 
+	  /* Get direction of displaying values */
 	  if(backwards) {
 		  for (uint8_t i = 0; i < 4; i++) {
 			  string_disp[i] = string[pos-2+i];
@@ -207,7 +203,7 @@ float get_azimuth(float x, float y)
 	return atan2(x, y) * 180.0/PI;
 }
 
-float get_altitude(float p, float temp)
+float get_altitude(float p, int16_t temp)
 {
 	float p0 = 1013.25;
 	double press = p0/p;
