@@ -46,9 +46,7 @@
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
+uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
@@ -250,29 +248,29 @@ uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t 
 {
 	uint8_t button_state = 0, it = 0;
 
-		while(it < samples_window)
+	while(it < samples_window)
+	{
+		if((!(PORT->IDR & (1 << PIN)) == edge) /*LL_GPIO_IsInputPinSet(PORT, PIN)*/)
 		{
-			if((!(PORT->IDR & (1 << PIN)) == edge) /*LL_GPIO_IsInputPinSet(PORT, PIN)*/)
-			{
-				button_state += 1;
-			}
-			else
-			{
-				button_state = 0;
-			}
-
-			it++;
-			LL_mDelay(1);
+			button_state += 1;
 		}
-
-		if(button_state >= samples_required)
-		{
-			return 1;
-		}
-
 		else
 		{
-			return 0;
+			button_state = 0;
 		}
+
+		it++;
+		LL_mDelay(1);
+	}
+
+	if(button_state >= samples_required)
+	{
+		return 1;
+	}
+
+	else
+	{
+		return 0;
+	}
 }
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
