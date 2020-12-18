@@ -25,32 +25,61 @@ void hts221_readArray(uint8_t * data, uint8_t reg, uint8_t length)
 	i2c_master_read(data, length, reg, address_hts, 1);
 }
 
-int8_t hts221_get_temp()
+int32_t hts221_get_temp()
 {
-	uint8_t temp[2];
-	hts221_readArray(temp, HTS221_ADDRESS_TEMP, 2);
+	 int16_t T0_out, T1_out, T_out, T0_degC_x8_u16, T1_degC_x8_u16;
+	 int16_t T0_degC, T1_degC;
+	 uint8_t buffer[4], tmp;
+	 int32_t tmp32, temperature;
 
-	return (((int16_t)((temp[1] << 8) | temp[0])) >> 3)  + 25;
+	 hts221_readArray(buffer, 0x32, 4);
+	 tmp = hts221_read_byte(0x35);
+
+	T0_degC_x8_u16 = (((uint16_t)(tmp & 0x03)) << 8) | ((uint16_t)buffer[0]);
+	T1_degC_x8_u16 = (((uint16_t)(tmp & 0x0C)) << 6) | ((uint16_t)buffer[1]);
+	T0_degC = T0_degC_x8_u16>>3;
+	T1_degC = T1_degC_x8_u16>>3;
+
+	hts221_readArray(buffer, 0x3C, 4);
+	T0_out = (((uint16_t)buffer[1])<<8) | (uint16_t)buffer[0];
+	T1_out = (((uint16_t)buffer[3])<<8) | (uint16_t)buffer[2];
+
+	hts221_readArray(buffer, 0x2A, 4);
+	T_out = (((uint16_t)buffer[1])<<8) | (uint16_t)buffer[0];
+
+	tmp32 = ((int32_t)(T_out - T0_out)) * ((int32_t)(T1_degC - T0_degC));
+	temperature = tmp32 /(T1_out - T0_out) + T0_degC;
+	return temperature;
 }
 
 
-void hts221_get_hum(float* hum)
+uint16_t hts221_get_hum()
 {
-	uint8_t data[6];
-	int16_t humidity;
-	uint8_t temp;
+	int16_t H0_T0_out, H1_T0_out, H_T_out;
+	int16_t H0_rh, H1_rh;
+	uint8_t buffer[2];
+	int32_t tmp;
+	uint16_t humidity;
 
-	//get current scale and use it for final calculation
-    temp = hts221_read_byte(HTS221_ADDRESS_CTRL1);
+    hts221_readArray(buffer, 0x30, 2);
+    H0_rh = buffer[0]>>1;
+    H1_rh = buffer[1]>>1;
 
-	temp = temp >> 2;
-    temp &= 0x03;			//full scale bits exctracted
+    hts221_readArray(buffer, 0x36, 2);
+    H0_T0_out = (((uint16_t)buffer[1])<<8) | (uint16_t)buffer[0];
 
-    hts221_readArray(data, HTS221_ADDRESS_HUM, 6);
+    hts221_readArray(buffer, 0x3A, 2);
+    H1_T0_out = (((uint16_t)buffer[1])<<8) | (uint16_t)buffer[0];
 
-    humidity = ((uint16_t)data[1]) << 8 | data[0];
+    hts221_readArray(buffer, HTS221_ADDRESS_HUM, 2);
+    H_T_out = (((uint16_t)buffer[1])<<8) | (uint16_t)buffer[0];
 
-	*hum = (humidity >> 4) / 1000.0f;
+    tmp = ((int32_t)(H_T_out - H0_T0_out)) * ((int32_t)(H1_rh - H0_rh));
+    humidity = (uint16_t)(tmp/(H1_T0_out - H0_T0_out) + H0_rh);
+
+    if (humidity > 100) humidity = 100;
+
+	return humidity;
 }
 
 
@@ -61,7 +90,7 @@ uint8_t hts221_init(void)
 
 	LL_mDelay(100);
 
-	uint8_t val = hts221_read_byte(HTS221_DEVICE_ADDRESS_0);
+	uint8_t val = hts221_read_byte(HTS221_WHO_AM_I_ADDRES);
 
 	if(val == HTS221_WHO_AM_I_VALUE)
 	{

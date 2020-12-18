@@ -49,7 +49,8 @@ display.c:426:6:setW	8	static
 display.c:437:6:setX	8	static
 display.c:445:6:setZ	8	static
 display.c:455:6:setUnderscore	8	static
-display.c:466:6:displayNumber	24	static
-display.c:482:6:setDigit	16	static
-display.c:505:6:updateDisplay	24	static
-display.c:695:6:TIM3_IRQHandler	8	static
+display.c:461:6:setMinus	8	static
+display.c:471:6:displayNumber	24	static
+display.c:487:6:setDigit	16	static
+display.c:510:6:updateDisplay	24	static
+display.c:704:6:TIM3_IRQHandler	8	static

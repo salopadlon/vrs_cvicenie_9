@@ -458,6 +458,11 @@ void setUnderscore(void)
 	LL_GPIO_ResetOutputPin(SEGMENTD_PORT, SEGMENTD_PIN);
 }
 
+void setMinus(void)
+{
+	// G
+	LL_GPIO_ResetOutputPin(SEGMENTG_PORT, SEGMENTG_PIN);
+}
 
 
 /**
@@ -675,6 +680,10 @@ void updateDisplay(void)
 			case '_':
 			  setDigit(i);
 			  setUnderscore();
+			  break;
+			case '-':
+			  setDigit(i);
+			  setMinus();
 			  break;
 		}
 

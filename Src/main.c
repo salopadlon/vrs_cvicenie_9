@@ -41,11 +41,13 @@ uint8_t pos = 0;
 uint8_t backwards = 0;
 uint8_t switch_state = 1;
 uint8_t change_state = 1;
-float mag[3], acc[3], azimuth, alt;
-float* press, hum, temp;
+float mag[3], acc[3], azimuth, alt, press, temp;
+uint16_t hum;
 
-float get_altitude(float p, int16_t temp);
+float get_altitude(float p, float temp);
 float get_azimuth(float x, float y);
+uint8_t get_state();
+void set_state(uint8_t state);
 
 int main(void)
 {
@@ -70,7 +72,7 @@ int main(void)
 
   while(!lsm6ds0_init());
   while(!lps25hb_init());
-//  while(!hts221_init());
+  while(!hts221_init());
   while(!lis3mdl_init());
 
   MX_TIM3_Init();
@@ -89,25 +91,25 @@ int main(void)
 	  }
 
 	  else if (switch_state == 2) {
-//		  temp = hts221_get_temp();
-		  snprintf(string, sizeof(string), "tEMP_");;
+		  temp = (float) hts221_get_temp();
+		  snprintf(string, sizeof(string), "tEMP_%2.1f", temp);
 	  }
 
 	  else if (switch_state == 3) {
-//		  hts221_get_hum(hum);
-		  snprintf(string, sizeof(string), "HUM_");
+		  hum = hts221_get_hum();
+		  snprintf(string, sizeof(string), "HUM_%2d", hum);
 	  }
 
 	  else if (switch_state == 4) {
-//		  lps25hb_get_press(press);
-		  snprintf(string, sizeof(string), "bar_");
+		  press = lps25hb_get_press();
+		  snprintf(string, sizeof(string), "bar_%.2f", press);
 	  }
 
 	  else if (switch_state == 5) {
-//		  lps25hb_get_press(press);
-//		  int16_t temperature = lps25hb_get_temp();
-//		  alt = get_altitude(*press, temperature);
-		  snprintf(string, sizeof(string), "ALt_");
+		  press = lps25hb_get_press();
+		  float temperature = lps25hb_get_temp();
+		  alt = get_altitude(press, temperature);
+		  snprintf(string, sizeof(string), "ALt_%4.1f", alt);
 	  }
 
 	  else {
@@ -138,6 +140,8 @@ int main(void)
 			  backwards = 1;
 		  }
 	  }
+
+	  if (string_disp[3] == '\0') backwards = 1;
 
 	  displayNumber(string_disp);
 	  LL_mDelay(500);
@@ -186,7 +190,7 @@ float get_azimuth(float x, float y)
 	return atan2(x, y) * 180.0/M_PI;
 }
 
-float get_altitude(float p, int16_t temp)
+float get_altitude(float p, float temp)
 {
 	float p0 = 1013.25;
 	double press = p0/p;
@@ -199,6 +203,7 @@ void set_state(uint8_t state)
 {
 	switch_state = state;
 	change_state = 1;
+	backwards = 0;
 }
 
 uint8_t get_state()

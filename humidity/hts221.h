@@ -20,7 +20,7 @@
 #define 	HTS221_ADDRESS_TEMP						0x2A
 
 uint8_t hts221_init(void);
-void hts221_get_hum();
+uint16_t hts221_get_hum();
 uint8_t hts221_read_byte(uint8_t reg_addr);
 void hts221_write_byte(uint8_t reg_addr, uint8_t value);
-int8_t hts221_get_temp();
+int32_t hts221_get_temp();

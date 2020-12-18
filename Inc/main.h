@@ -108,8 +108,10 @@ void Error_Handler(void);
                                                                  0 bit  for subpriority */
 #endif
 
-float get_altitude(float p, int16_t temp);
+float get_altitude(float p, float temp);
 float get_azimuth(float x, float y);
+uint8_t get_state();
+void set_state(uint8_t state);
 
 #ifdef __cplusplus
 }

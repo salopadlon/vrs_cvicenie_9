@@ -26,19 +26,25 @@ void lps25hb_readArray(uint8_t * data, uint8_t reg, uint8_t length)
 	i2c_master_read(data, length, reg, address_lps, 1);
 }
 
-int8_t lps25hb_get_temp()
+float lps25hb_get_temp()
 {
-	uint8_t temp[2];
-	lps25hb_readArray(temp, LPS25HB_ADDRESS_TEMP, 2);
+	uint8_t data[2];
+	int16_t temp;
 
-	return (((int16_t)((temp[1] << 8) | temp[0])) >> 3)  + 25;
+	lps25hb_readArray(data, LPS25HB_ADDRESS_TEMP, 2);
+
+	temp = ((int16_t)((data[1] << 8) | data[0]));
+	temp = temp/480 + 42.5;
+
+	return temp;
 }
 
 
-void lps25hb_get_press(float* press)
+float lps25hb_get_press()
 {
-	uint8_t data[6];
-	int16_t pressure;
+	uint8_t data[3];
+	uint8_t pressure_xl, pressure_l, pressure_h;
+	uint32_t pressure;
 	uint8_t temp;
 
 	//get current scale and use it for final calculation
@@ -47,11 +53,15 @@ void lps25hb_get_press(float* press)
 	temp = temp >> 2;
     temp &= 0x03;			//full scale bits exctracted
 
-    lps25hb_readArray(data, LPS25HB_ADDRESS_PRESS, 6);
+    lps25hb_readArray(data, LPS25HB_ADDRESS_PRESS, 3);
 
-    pressure = ((uint16_t)data[1]) << 8 | data[0];
+    pressure_xl = data[0];
+    pressure_l = data[1];
+    pressure_h = data[2];
+    pressure = (uint32_t)pressure_l << 8 | pressure_xl;
+    pressure = (uint32_t)pressure_h << 16 | pressure;
 
-	*press = (pressure >> 4) / 1000.0f;
+	return pressure/4096.0;
 }
 
 
