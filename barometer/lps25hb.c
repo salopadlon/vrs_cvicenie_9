@@ -73,7 +73,7 @@ uint8_t lps25hb_init(void)
 	else			//if the device is not found on one address, try another one
 	{
 		address_lps = LPS25HB_DEVICE_ADDRESS_1;
-		val = lsm6ds0_read_byte(LPS25HB_WHO_AM_I_ADDRES);
+		val = lps25hb_read_byte(LPS25HB_WHO_AM_I_ADDRES);
 		if(val == LPS25HB_WHO_AM_I_VALUE)
 		{
 			status = 1;
@@ -87,7 +87,7 @@ uint8_t lps25hb_init(void)
 
 	//acc device init
 
-	uint8_t ctrl1 = 8 << 4; // +-2g res
+	uint8_t ctrl1 = 0x11000000;
 	lps25hb_write_byte(LPS25HB_ADDRESS_CTRL1, ctrl1);
 
 	return status;

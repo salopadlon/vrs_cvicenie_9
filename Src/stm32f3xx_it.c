@@ -42,6 +42,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 extern uint8_t switch_state;
+extern uint64_t disp_time;
 
 /* Private function prototypes -----------------------------------------------*/
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN, uint8_t edge, uint8_t samples_window, uint8_t samples_required);
@@ -180,7 +181,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-
+  disp_time++;
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */

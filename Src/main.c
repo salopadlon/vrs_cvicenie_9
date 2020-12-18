@@ -32,7 +32,6 @@
 #include <math.h>
 
 uint8_t switch_state = 1;
-//uint8_t temp = 0;
 uint8_t pos = 0;
 uint8_t backwards = 0;
 char string[16];

@@ -34,7 +34,7 @@ void MX_TIM3_Init(void)
 	LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
 
 	/* TIM3 interrupt Init */
-	NVIC_SetPriority(TIM3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),2, 2));
+	NVIC_SetPriority(TIM3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
 	NVIC_EnableIRQ(TIM3_IRQn);
 
 	//TIM3 clock = 8MHz
@@ -53,7 +53,7 @@ void MX_TIM3_Init(void)
 	TIM_OC_InitStruct.CompareValue = 0;
 	TIM_OC_InitStruct.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
 	LL_TIM_OC_Init(TIM3, LL_TIM_CHANNEL_CH1, &TIM_OC_InitStruct);
-	LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
+//	LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
 	LL_TIM_OC_DisableFast(TIM3, LL_TIM_CHANNEL_CH1);
 
 	LL_TIM_SetTriggerOutput(TIM3, LL_TIM_TRGO_RESET);
